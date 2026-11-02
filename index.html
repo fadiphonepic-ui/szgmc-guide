@@ -11,16 +11,16 @@
 /* Layout: one-screen chat — pool-blue header band, scrolling marble log, fixed composer */
 :root {
   --marble: #faf7f1; --surface: #ffffff; --ink: #231f20; --muted: #6b6152; --line: #e5dccb;
-  --pool: #8d6828; --pool-ink: #ffffff; --gold: #8d6828; --gold-soft: #f3ecdc; --bubble-me: #ece2c9; --warn: #8a4b12; --brand: #bba367;
+  --pool: #8d6828; --pool-ink: #ffffff; --gold: #8d6828; --gold-soft: #f3ecdc; --bubble-me: #ece2c9; --warn: #8a4b12; --brand: #bba367; --column: #ffffff; --column-shade: rgba(141,104,40,.18);
   --f-display: "Reem Kufi", "Noto Kufi Arabic", Tahoma, sans-serif;
   --f-body: "IBM Plex Sans Arabic", "Noto Sans Arabic", "Segoe UI", Tahoma, "PingFang SC", "Microsoft YaHei", sans-serif;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) { --marble: #1a1718; --surface: #231f20; --ink: #f1ece2; --muted: #ab9f8a; --line: #3a3434;
-    --pool: #2d2618; --pool-ink: #e7d6a8; --gold: #bba367; --gold-soft: #3a3122; --bubble-me: #33291a; --warn: #e2a066; --brand: #bba367; color-scheme: dark; }
+    --pool: #2d2618; --pool-ink: #e7d6a8; --gold: #bba367; --gold-soft: #3a3122; --bubble-me: #33291a; --warn: #e2a066; --brand: #bba367; --column: #2b2627; --column-shade: rgba(0,0,0,.45); color-scheme: dark; }
 }
 :root[data-theme="dark"] { --marble: #1a1718; --surface: #231f20; --ink: #f1ece2; --muted: #ab9f8a; --line: #3a3434;
-  --pool: #2d2618; --pool-ink: #e7d6a8; --gold: #bba367; --gold-soft: #3a3122; --bubble-me: #33291a; --warn: #e2a066; --brand: #bba367; color-scheme: dark; }
+  --pool: #2d2618; --pool-ink: #e7d6a8; --gold: #bba367; --gold-soft: #3a3122; --bubble-me: #33291a; --warn: #e2a066; --brand: #bba367; --column: #2b2627; --column-shade: rgba(0,0,0,.45); color-scheme: dark; }
 * { box-sizing: border-box; }
 html, body { margin: 0; }
 body { padding-top: env(safe-area-inset-top, 0px); }
@@ -66,10 +66,94 @@ textarea { flex: 1; min-width: 0; resize: none; font: inherit; color: var(--ink)
 .send { font: inherit; font-weight: 600; background: var(--pool); color: var(--pool-ink); border: 0; border-radius: 12px; padding: 9px 18px; cursor: pointer; }
 .send:disabled { opacity: .55; cursor: default; }
 .fine { font-size: .72rem; color: var(--muted); margin: 0; }
+/* Decorative marble columns in the side gaps, inspired by the mosque's inlaid columns (wide screens only) */
+.pillar { display: none; }
+@media (min-width: 1080px) {
+  .pillar { display: flex; flex-direction: column; align-items: center; position: fixed; top: 0; bottom: 0; width: 84px;
+    left: calc(50% - 380px - 150px); z-index: 0; pointer-events: none; color: var(--brand); }
+  .pillar.end { left: auto; right: calc(50% - 380px - 150px); }
+  .pillar .cap, .pillar .base { flex: none; display: block; }
+  .pillar .shaft { flex: 1; width: 46px; min-height: 0; background: var(--column); border-inline: 1px solid var(--line);
+    box-shadow: inset 6px 0 10px -6px var(--column-shade), inset -6px 0 10px -6px var(--column-shade); }
+  .pillar .shaft svg { display: block; width: 100%; height: 100%; }
+  main, header, footer { position: relative; z-index: 1; }
+  main { background: transparent; }
+}
+@media (min-width: 1360px) {
+  .pillar { left: calc(50% - 380px - 220px); }
+  .pillar.end { right: calc(50% - 380px - 220px); }
+}
 @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
 </style>
 </head>
 <body>
+
+<div class="pillar" aria-hidden="true">
+  <svg class="cap" width="84" height="74" viewBox="0 0 84 74">
+    <rect x="2" y="56" width="80" height="8" rx="1" fill="currentColor"/>
+    <rect x="16" y="64" width="52" height="10" fill="currentColor" opacity=".55"/>
+    <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <path d="M42 56 C42 40 42 26 42 8"/>
+      <path d="M42 54 C36 40 24 28 8 22"/><path d="M42 54 C48 40 60 28 76 22"/>
+      <path d="M42 54 C38 36 30 20 18 8"/><path d="M42 54 C46 36 54 20 66 8"/>
+      <path d="M42 54 C30 46 18 44 4 44"/><path d="M42 54 C54 46 66 44 80 44"/>
+    </g>
+    <circle cx="42" cy="6" r="3" fill="currentColor"/>
+  </svg>
+  <div class="shaft">
+    <svg preserveAspectRatio="xMidYMin slice">
+      <defs>
+        <pattern id="vineA" width="46" height="96" patternUnits="userSpaceOnUse">
+          <path d="M23 0 C10 24 36 48 23 72 C14 88 23 96 23 96" fill="none" stroke="currentColor" stroke-width="1.4"/>
+          <path d="M23 18 c-8 -2 -12 4 -14 10 c6 1 12 -2 14 -10z" fill="currentColor" opacity=".7"/>
+          <path d="M24 46 c8 -2 12 4 14 10 c-6 1 -12 -2 -14 -10z" fill="currentColor" opacity=".7"/>
+          <circle cx="12" cy="64" r="2.4" fill="currentColor"/>
+          <circle cx="34" cy="30" r="2.4" fill="currentColor"/>
+          <path d="M23 84 l3 4 -3 4 -3 -4z" fill="currentColor"/>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#vineA)"/>
+    </svg>
+  </div>
+  <svg class="base" width="72" height="30" viewBox="0 0 72 30">
+    <rect x="12" y="0" width="48" height="6" fill="currentColor" opacity=".55"/>
+    <rect x="6" y="6" width="60" height="8" fill="currentColor"/>
+    <rect x="0" y="14" width="72" height="16" fill="var(--column)" stroke="var(--line)"/>
+  </svg>
+</div>
+<div class="pillar end" aria-hidden="true">
+  <svg class="cap" width="84" height="74" viewBox="0 0 84 74">
+    <rect x="2" y="56" width="80" height="8" rx="1" fill="currentColor"/>
+    <rect x="16" y="64" width="52" height="10" fill="currentColor" opacity=".55"/>
+    <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <path d="M42 56 C42 40 42 26 42 8"/>
+      <path d="M42 54 C36 40 24 28 8 22"/><path d="M42 54 C48 40 60 28 76 22"/>
+      <path d="M42 54 C38 36 30 20 18 8"/><path d="M42 54 C46 36 54 20 66 8"/>
+      <path d="M42 54 C30 46 18 44 4 44"/><path d="M42 54 C54 46 66 44 80 44"/>
+    </g>
+    <circle cx="42" cy="6" r="3" fill="currentColor"/>
+  </svg>
+  <div class="shaft">
+    <svg preserveAspectRatio="xMidYMin slice">
+      <defs>
+        <pattern id="vineB" width="46" height="96" patternUnits="userSpaceOnUse">
+          <path d="M23 0 C10 24 36 48 23 72 C14 88 23 96 23 96" fill="none" stroke="currentColor" stroke-width="1.4"/>
+          <path d="M23 18 c-8 -2 -12 4 -14 10 c6 1 12 -2 14 -10z" fill="currentColor" opacity=".7"/>
+          <path d="M24 46 c8 -2 12 4 14 10 c-6 1 -12 -2 -14 -10z" fill="currentColor" opacity=".7"/>
+          <circle cx="12" cy="64" r="2.4" fill="currentColor"/>
+          <circle cx="34" cy="30" r="2.4" fill="currentColor"/>
+          <path d="M23 84 l3 4 -3 4 -3 -4z" fill="currentColor"/>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#vineB)"/>
+    </svg>
+  </div>
+  <svg class="base" width="72" height="30" viewBox="0 0 72 30">
+    <rect x="12" y="0" width="48" height="6" fill="currentColor" opacity=".55"/>
+    <rect x="6" y="6" width="60" height="8" fill="currentColor"/>
+    <rect x="0" y="14" width="72" height="16" fill="var(--column)" stroke="var(--line)"/>
+  </svg>
+</div>
 
 <header>
   <div class="wrap">
