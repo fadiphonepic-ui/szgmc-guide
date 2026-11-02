@@ -11,16 +11,16 @@
 /* Layout: one-screen chat — pool-blue header band, scrolling marble log, fixed composer */
 :root {
   --marble: #faf7f1; --surface: #ffffff; --ink: #231f20; --muted: #6b6152; --line: #e5dccb;
-  --pool: #8d6828; --pool-ink: #ffffff; --gold: #8d6828; --gold-soft: #f3ecdc; --bubble-me: #ece2c9; --warn: #8a4b12; --brand: #bba367; --column: #ffffff; --column-shade: rgba(141,104,40,.18);
+  --pool: #8d6828; --pool-ink: #ffffff; --gold: #8d6828; --gold-soft: #f3ecdc; --bubble-me: #ece2c9; --warn: #8a4b12; --brand: #bba367; --column: #ffffff; --column-shade: rgba(141,104,40,.18); --veil: rgba(250,247,241,.80);
   --f-display: "Reem Kufi", "Noto Kufi Arabic", Tahoma, sans-serif;
   --f-body: "IBM Plex Sans Arabic", "Noto Sans Arabic", "Segoe UI", Tahoma, "PingFang SC", "Microsoft YaHei", sans-serif;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) { --marble: #1a1718; --surface: #231f20; --ink: #f1ece2; --muted: #ab9f8a; --line: #3a3434;
-    --pool: #2d2618; --pool-ink: #e7d6a8; --gold: #bba367; --gold-soft: #3a3122; --bubble-me: #33291a; --warn: #e2a066; --brand: #bba367; --column: #2b2627; --column-shade: rgba(0,0,0,.45); color-scheme: dark; }
+    --pool: #2d2618; --pool-ink: #e7d6a8; --gold: #bba367; --gold-soft: #3a3122; --bubble-me: #33291a; --warn: #e2a066; --brand: #bba367; --column: #2b2627; --column-shade: rgba(0,0,0,.45); --veil: rgba(26,23,24,.82); color-scheme: dark; }
 }
 :root[data-theme="dark"] { --marble: #1a1718; --surface: #231f20; --ink: #f1ece2; --muted: #ab9f8a; --line: #3a3434;
-  --pool: #2d2618; --pool-ink: #e7d6a8; --gold: #bba367; --gold-soft: #3a3122; --bubble-me: #33291a; --warn: #e2a066; --brand: #bba367; --column: #2b2627; --column-shade: rgba(0,0,0,.45); color-scheme: dark; }
+  --pool: #2d2618; --pool-ink: #e7d6a8; --gold: #bba367; --gold-soft: #3a3122; --bubble-me: #33291a; --warn: #e2a066; --brand: #bba367; --column: #2b2627; --column-shade: rgba(0,0,0,.45); --veil: rgba(26,23,24,.82); color-scheme: dark; }
 * { box-sizing: border-box; }
 html, body { margin: 0; }
 body { padding-top: env(safe-area-inset-top, 0px); }
@@ -66,6 +66,14 @@ textarea { flex: 1; min-width: 0; resize: none; font: inherit; color: var(--ink)
 .send { font: inherit; font-weight: 600; background: var(--pool); color: var(--pool-ink); border: 0; border-radius: 12px; padding: 9px 18px; cursor: pointer; }
 .send:disabled { opacity: .55; cursor: default; }
 .fine { font-size: .72rem; color: var(--muted); margin: 0; }
+/* Blurred photo of the mosque behind everything */
+.bg { position: fixed; inset: -40px; z-index: 0; pointer-events: none;
+  background: #8d6828 url("https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6f/Maqta_Abu_DHabi_UAE.jpg/1920px-Maqta_Abu_DHabi_UAE.jpg") center 35% / cover no-repeat;
+  filter: blur(12px); }
+.bg::after { content: ""; position: absolute; inset: 0; background: var(--veil); }
+main, header, footer { position: relative; z-index: 1; }
+main { background: transparent; }
+.credit a { color: inherit; }
 /* Decorative marble columns in the side gaps, inspired by the mosque's inlaid columns (wide screens only) */
 .pillar { display: none; }
 @media (min-width: 1080px) {
@@ -88,6 +96,7 @@ textarea { flex: 1; min-width: 0; resize: none; font: inherit; color: var(--ink)
 </head>
 <body>
 
+<div class="bg" aria-hidden="true"></div>
 <div class="pillar" aria-hidden="true">
   <svg class="cap" width="84" height="74" viewBox="0 0 84 74">
     <rect x="2" y="56" width="80" height="8" rx="1" fill="currentColor"/>
@@ -188,6 +197,7 @@ textarea { flex: 1; min-width: 0; resize: none; font: inherit; color: var(--ink)
       <button class="send" id="send" type="submit"></button>
     </form>
     <p class="fine" id="fine"></p>
+    <p class="fine credit">Background photo: <a href="https://commons.wikimedia.org/wiki/File:Maqta_Abu_DHabi_UAE.jpg" target="_blank" rel="noopener">Nadeemlatifkhan</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></p>
   </div>
 </footer>
 
