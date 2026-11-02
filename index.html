@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>الدليل الثقافي الذكي لجامع الشيخ زايد</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@500;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap">
+<style>
+/* Layout: one-screen chat — pool-blue header band, scrolling marble log, fixed composer */
+:root {
+  --marble: #faf7f1; --surface: #ffffff; --ink: #231f20; --muted: #6b6152; --line: #e5dccb;
+  --pool: #8d6828; --pool-ink: #ffffff; --gold: #8d6828; --gold-soft: #f3ecdc; --bubble-me: #ece2c9; --warn: #8a4b12; --brand: #bba367;
+  --f-display: "Reem Kufi", "Noto Kufi Arabic", Tahoma, sans-serif;
+  --f-body: "IBM Plex Sans Arabic", "Noto Sans Arabic", "Segoe UI", Tahoma, "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --marble: #1a1718; --surface: #231f20; --ink: #f1ece2; --muted: #ab9f8a; --line: #3a3434;
+    --pool: #2d2618; --pool-ink: #e7d6a8; --gold: #bba367; --gold-soft: #3a3122; --bubble-me: #33291a; --warn: #e2a066; --brand: #bba367; color-scheme: dark; }
+}
+:root[data-theme="dark"] { --marble: #1a1718; --surface: #231f20; --ink: #f1ece2; --muted: #ab9f8a; --line: #3a3434;
+  --pool: #2d2618; --pool-ink: #e7d6a8; --gold: #bba367; --gold-soft: #3a3122; --bubble-me: #33291a; --warn: #e2a066; --brand: #bba367; color-scheme: dark; }
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { padding-top: env(safe-area-inset-top, 0px); }
+html, body { height: 100%; }
+body { background: var(--marble); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.75;
+  display: flex; flex-direction: column; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--pool); }
+.wrap { width: 100%; max-width: 760px; margin-inline: auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+header { background: var(--pool); color: var(--pool-ink); flex: none; border-bottom: 3px solid var(--brand); }
+header .wrap { padding-block: 16px 14px; display: flex; align-items: center; gap: 12px; }
+.mark { width: 40px; height: 40px; flex: none; }
+.head { flex: 1; min-width: 0; }
+h1 { font-family: var(--f-display); font-weight: 700; font-size: 1.4rem; margin: 0; line-height: 1.3; text-wrap: balance; }
+.sub { margin: 0; font-size: .84rem; opacity: .85; }
+.lang { font: inherit; font-size: .82rem; font-weight: 600; color: var(--pool-ink); -webkit-appearance: none; appearance: none;
+  background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23ffffff' stroke-width='1.6'/%3E%3C/svg%3E") no-repeat right 11px center;
+  border: 1px solid currentColor; border-radius: 999px; padding-block: 4px; padding-inline: 14px 28px; cursor: pointer; flex: none; max-width: 40vw; }
+html[dir="rtl"] .lang { background-position: left 11px center; }
+.lang option { color: var(--ink); background: var(--surface); }
+main { flex: 1; min-height: 0; overflow-y: auto; }
+main .wrap { padding-block: 20px 12px; display: flex; flex-direction: column; gap: 14px; }
+.msg { display: flex; flex-direction: column; gap: 6px; max-width: 88%; min-width: 0; }
+.msg.bot { align-self: flex-start; } .msg.me { align-self: flex-end; }
+.bubble { padding: 10px 14px; border-radius: 14px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.bot .bubble { background: var(--surface); border: 1px solid var(--line); border-start-start-radius: 4px; }
+.me .bubble { background: var(--bubble-me); border-start-end-radius: 4px; }
+.bubble.thinking { color: var(--muted); }
+.bubble.note { color: var(--warn); }
+.who { font-size: .72rem; color: var(--muted); }
+.src { display: flex; flex-wrap: wrap; gap: 8px; font-size: .75rem; color: var(--muted); }
+.src a { color: var(--gold); text-decoration: none; border-bottom: 1px dotted var(--gold); }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { font: inherit; font-size: .82rem; padding: 6px 12px; border-radius: 999px; cursor: pointer;
+  background: var(--gold-soft); color: var(--ink); border: 1px solid transparent; }
+.chip:hover { border-color: var(--gold); }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+footer { flex: none; border-top: 1px solid var(--line); background: var(--surface); padding-bottom: env(safe-area-inset-bottom, 0px); }
+footer .wrap { padding-block: 10px; display: flex; flex-direction: column; gap: 6px; }
+form { display: flex; gap: 8px; align-items: flex-end; }
+textarea { flex: 1; min-width: 0; resize: none; font: inherit; color: var(--ink); background: var(--marble);
+  border: 1px solid var(--line); border-radius: 12px; padding: 9px 12px; max-height: 120px; }
+.send { font: inherit; font-weight: 600; background: var(--pool); color: var(--pool-ink); border: 0; border-radius: 12px; padding: 9px 18px; cursor: pointer; }
+.send:disabled { opacity: .55; cursor: default; }
+.fine { font-size: .72rem; color: var(--muted); margin: 0; }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <svg class="mark" viewBox="0 0 40 40" aria-hidden="true">
+      <path d="M20 6c-6 4-9 8-9 13h18c0-5-3-9-9-13z" fill="none" stroke="currentColor" stroke-width="1.8"/>
+      <path d="M9 19h22v13H9z" fill="none" stroke="currentColor" stroke-width="1.8"/>
+      <path d="M17 32v-6a3 3 0 0 1 6 0v6" fill="none" stroke="currentColor" stroke-width="1.8"/>
+      <path d="M4 32V12M36 32V12" stroke="currentColor" stroke-width="1.8"/>
+      <circle cx="20" cy="4" r="1.6" fill="currentColor"/>
+    </svg>
+    <div class="head">
+      <h1 id="title"></h1>
+      <p class="sub" id="sub"></p>
+    </div>
+    <select class="lang" id="langSel" aria-label="اللغة / Language">
+      <option value="ar">العربية</option>
+      <option value="en">English</option>
+      <option value="fr">Français</option>
+      <option value="zh">中文</option>
+      <option value="ru">Русский</option>
+      <option value="ur">اردو</option>
+    </select>
+  </div>
+</header>
+
+<main id="scroller"><div class="wrap" id="log"></div></main>
+
+<footer>
+  <div class="wrap">
+    <form id="form" autocomplete="off">
+      <textarea id="q" rows="1"></textarea>
+      <button class="send" id="send" type="submit"></button>
+    </form>
+    <p class="fine" id="fine"></p>
+  </div>
+</footer>
+
+<script>
+const API_URL = "https://n8n.qclabz.com/webhook/szgmc-agent";
+const T = {
+  ar: {
+    dir: "rtl", title: "الدليل الثقافي الذكي لجامع الشيخ زايد",
+    sub: "يجاوبك من موقع مركز جامع الشيخ زايد الكبير بس، باللهجة الإماراتية",
+    switchTo: "English", placeholder: "اكتب سؤالك... مثلاً: شو اللبس المطلوب للحريم؟", send: "أرسل",
+    me: "أنت", bot: "الدليل الثقافي", thinking: "قاعد أدوّر في معلومات الموقع...", src: "من الموقع:",
+    welcome: "أهلاً وسهلاً بكم في الدليل الثقافي الذكي لجامع الشيخ زايد الكبير. يسعدني الإجابة عن استفساراتكم حول مواعيد الزيارة، وآداب الزيارة واللباس، والجولات الثقافية، والخدمات، والعمارة الإسلامية للجامع، استناداً إلى المعلومات الرسمية لمركز جامع الشيخ زايد الكبير.",
+    chips: ["متى مواعيد الزيارة يوم الجمعة؟","كم رسوم الدخول؟","شو اللبس المطلوب للحريم؟","متى الجولات المجانية؟","وين أوقف سيارتي؟","كم طول المآذن؟"],
+    fine: "المصدر الوحيد: szgmc.gov.ae (آخر تحديث للمعلومات: نوفمبر 2026). تأكد من الموقع قبل زيارتك.",
+    err: "صار خلل في الاتصال بالدليل الثقافي. جرّب ترسل سؤالك مرة ثانية بعد شوي.",
+    busy: "في ضغط حالياً، جرّب بعد دقيقة."
+  },
+  en: {
+    dir: "ltr", title: "Sheikh Zayed Grand Mosque Smart Cultural Guide",
+    sub: "Answers only from the Sheikh Zayed Grand Mosque Centre website",
+    switchTo: "عربي", placeholder: "Ask a question, e.g. What should women wear?", send: "Send",
+    me: "You", bot: "Cultural Guide", thinking: "Checking the mosque website...", src: "From the website:",
+    welcome: "Welcome to the Sheikh Zayed Grand Mosque Smart Cultural Guide. I am pleased to answer your questions about visiting hours, visitor etiquette and dress code, cultural tours, services, and the mosque's Islamic architecture, based on the official information of the Sheikh Zayed Grand Mosque Centre.",
+    chips: ["What are the Friday visiting hours?","How much is the entry fee?","What is the dress code?","When are the free tours?","Where can I park?","How tall are the minarets?"],
+    fine: "Only source: szgmc.gov.ae (information as of November 2026). Please confirm on the website before you visit.",
+    err: "Could not reach the guide. Please try sending your question again in a moment.",
+    busy: "The guide is busy right now. Try again in a minute."
+  },
+  fr: {
+    dir: "ltr", title: "Guide culturel intelligent de la Grande Mosquée Sheikh Zayed",
+    sub: "Réponses fondées uniquement sur le site du Centre de la Grande Mosquée Sheikh Zayed",
+    placeholder: "Posez votre question, p. ex. : Quelle tenue pour les femmes ?", send: "Envoyer",
+    me: "Vous", bot: "Guide culturel", thinking: "Recherche dans les informations du site...", src: "Sur le site :",
+    welcome: "Bienvenue dans le Guide culturel intelligent de la Grande Mosquée Sheikh Zayed. Je suis heureux de répondre à vos questions sur les horaires de visite, les règles de conduite et la tenue vestimentaire, les visites culturelles, les services et l'architecture islamique de la mosquée, sur la base des informations officielles du Centre de la Grande Mosquée Sheikh Zayed.",
+    chips: ["Quels sont les horaires le vendredi ?","Combien coûte l'entrée ?","Quelle est la tenue exigée ?","Quand ont lieu les visites gratuites ?","Où me garer ?","Quelle est la hauteur des minarets ?"],
+    fine: "Source unique : szgmc.gov.ae (informations de novembre 2026). Vérifiez sur le site avant votre visite.",
+    err: "Impossible de joindre le guide. Réessayez dans un instant.",
+    busy: "Le guide est très sollicité. Réessayez dans une minute."
+  },
+  zh: {
+    dir: "ltr", title: "谢赫扎耶德大清真寺智能文化导览",
+    sub: "仅根据谢赫扎耶德大清真寺中心官网信息回答",
+    placeholder: "请输入问题，例如：女性应该穿什么？", send: "发送",
+    me: "您", bot: "文化导览", thinking: "正在查询官网信息...", src: "来自官网：",
+    welcome: "欢迎使用谢赫扎耶德大清真寺智能文化导览。我很乐意根据谢赫扎耶德大清真寺中心的官方信息，解答您关于参观时间、参观礼仪与着装要求、文化导览、服务设施以及清真寺伊斯兰建筑的问题。",
+    chips: ["周五的参观时间是？","门票多少钱？","着装有什么要求？","免费导览什么时候？","在哪里停车？","宣礼塔有多高？"],
+    fine: "唯一信息来源：szgmc.gov.ae（信息截至2026年11月）。参观前请在官网确认。",
+    err: "暂时无法连接导览，请稍后重新发送问题。",
+    busy: "当前访问繁忙，请一分钟后再试。"
+  },
+  ru: {
+    dir: "ltr", title: "Умный культурный гид по Большой мечети шейха Зайда",
+    sub: "Ответы только на основе сайта Центра Большой мечети шейха Зайда",
+    placeholder: "Задайте вопрос, например: как должны одеваться женщины?", send: "Отправить",
+    me: "Вы", bot: "Культурный гид", thinking: "Ищу информацию на сайте...", src: "С сайта:",
+    welcome: "Добро пожаловать в Умный культурный гид по Большой мечети шейха Зайда. Я с удовольствием отвечу на ваши вопросы о часах посещения, правилах поведения и дресс-коде, культурных экскурсиях, услугах и исламской архитектуре мечети на основе официальной информации Центра Большой мечети шейха Зайда.",
+    chips: ["Часы посещения в пятницу?","Сколько стоит вход?","Какой дресс-код?","Когда бесплатные экскурсии?","Где припарковаться?","Какой высоты минареты?"],
+    fine: "Единственный источник: szgmc.gov.ae (данные на ноябрь 2026 г.). Перед визитом уточните информацию на сайте.",
+    err: "Не удалось связаться с гидом. Попробуйте отправить вопрос ещё раз чуть позже.",
+    busy: "Сейчас высокая нагрузка. Попробуйте через минуту."
+  },
+  ur: {
+    dir: "rtl", title: "شیخ زاید گرینڈ مسجد کا اسمارٹ ثقافتی رہنما",
+    sub: "صرف شیخ زاید گرینڈ مسجد سینٹر کی ویب سائٹ کی معلومات سے جواب",
+    placeholder: "اپنا سوال لکھیں، مثلاً: خواتین کیا پہنیں؟", send: "بھیجیں",
+    me: "آپ", bot: "ثقافتی رہنما", thinking: "ویب سائٹ کی معلومات تلاش کی جا رہی ہیں...", src: "ویب سائٹ سے:",
+    welcome: "شیخ زاید گرینڈ مسجد کے اسمارٹ ثقافتی رہنما میں خوش آمدید۔ مجھے شیخ زاید گرینڈ مسجد سینٹر کی سرکاری معلومات کی بنیاد پر زیارت کے اوقات، آدابِ زیارت اور لباس، ثقافتی دوروں، خدمات اور مسجد کے اسلامی فنِ تعمیر سے متعلق آپ کے سوالات کے جواب دے کر خوشی ہوگی۔",
+    chips: ["جمعہ کو زیارت کے اوقات کیا ہیں؟","داخلہ فیس کتنی ہے؟","لباس کے کیا اصول ہیں؟","مفت دورے کب ہوتے ہیں؟","گاڑی کہاں کھڑی کروں؟","مینار کتنے اونچے ہیں؟"],
+    fine: "واحد ذریعہ: szgmc.gov.ae (معلومات نومبر 2026 تک)۔ زیارت سے پہلے ویب سائٹ پر تصدیق کر لیں۔",
+    err: "رہنما سے رابطہ نہیں ہو سکا۔ تھوڑی دیر بعد دوبارہ سوال بھیجیں۔",
+    busy: "اس وقت رش ہے، ایک منٹ بعد کوشش کریں۔"
+  }
+};
+
+const $ = id => document.getElementById(id);
+const log = $("log"), scroller = $("scroller"), q = $("q"), sendBtn = $("send");
+let lang = "ar", busy = false;
+let sessionId;
+try { sessionId = localStorage.getItem("szgmc_sid"); } catch (_) {}
+if (!sessionId) {
+  sessionId = (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(16).slice(2));
+  try { localStorage.setItem("szgmc_sid", sessionId); } catch (_) {}
+}
+
+function render() {
+  const t = T[lang];
+  document.documentElement.lang = lang;
+  document.documentElement.dir = t.dir;
+  document.title = t.title;
+  $("title").textContent = t.title; $("sub").textContent = t.sub;
+  $("langSel").value = lang; q.placeholder = t.placeholder; q.setAttribute("aria-label", t.placeholder);
+  sendBtn.textContent = t.send; $("fine").textContent = t.fine;
+  log.innerHTML = "";
+  const { m } = addMsg("bot", t.welcome);
+  const chips = document.createElement("div"); chips.className = "chips";
+  for (const s of t.chips) {
+    const b = document.createElement("button"); b.type = "button"; b.className = "chip"; b.textContent = s;
+    b.addEventListener("click", () => ask(s)); chips.append(b);
+  }
+  m.append(chips);
+}
+function addMsg(role, text) {
+  const t = T[lang];
+  const m = document.createElement("div"); m.className = "msg " + role;
+  const who = document.createElement("span"); who.className = "who"; who.textContent = role === "me" ? t.me : t.bot;
+  const b = document.createElement("div"); b.className = "bubble"; b.textContent = text;
+  m.append(who, b); log.append(m); scroller.scrollTop = scroller.scrollHeight;
+  return { m, b };
+}
+function addSources(m, urls) {
+  urls = (urls || []).filter(u => /^https:\/\/(www\.)?szgmc\.gov\.ae\//i.test(u));
+  if (!urls.length) return;
+  const w = document.createElement("div"); w.className = "src";
+  const l = document.createElement("span"); l.textContent = T[lang].src; w.append(l);
+  for (const u of [...new Set(urls)]) {
+    const a = document.createElement("a"); a.href = u; a.target = "_blank"; a.rel = "noopener";
+    let label = u.replace(/^https:\/\/(www\.)?szgmc\.gov\.ae\/?/i, "").replace(/\/$/, "");
+    try { label = decodeURIComponent(label); } catch (_) {}
+    a.textContent = label || "szgmc.gov.ae";
+    w.append(a);
+  }
+  m.append(w);
+}
+function split(text) {
+  const i = text.lastIndexOf("SOURCES:");
+  if (i < 0) return { answer: text.trim(), sources: [] };
+  return { answer: text.slice(0, i).trim(), sources: text.slice(i + 8).trim().split(/\s+/).filter(Boolean) };
+}
+
+async function ask(text) {
+  text = String(text || "").trim();
+  if (!text || busy) return;
+  busy = true; sendBtn.disabled = true; q.value = ""; autosize();
+  addMsg("me", text);
+  const { m, b } = addMsg("bot", T[lang].thinking); b.classList.add("thinking");
+  try {
+    const res = await fetch(API_URL, {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: text, lang, sessionId })
+    });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    const data = await res.json();
+    b.classList.remove("thinking");
+    b.textContent = data.answer || T[lang].err;
+    addSources(m, data.sources);
+  } catch (e) {
+    b.classList.remove("thinking"); b.classList.add("note"); b.textContent = T[lang].err;
+  } finally {
+    busy = false; sendBtn.disabled = false; scroller.scrollTop = scroller.scrollHeight; q.focus();
+  }
+}
+
+function autosize() { q.style.height = "auto"; q.style.height = Math.min(q.scrollHeight, 120) + "px"; }
+q.addEventListener("input", autosize);
+q.addEventListener("keydown", e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); ask(q.value); } });
+$("form").addEventListener("submit", e => { e.preventDefault(); ask(q.value); });
+$("langSel").addEventListener("change", e => { if (T[e.target.value]) { lang = e.target.value; render(); } });
+render();
+</script>
+</body>
+</html>
