@@ -91,6 +91,15 @@ main { background: transparent; }
   .pillar { left: calc(50% - 380px - 220px); }
   .pillar.end { right: calc(50% - 380px - 220px); }
 }
+/* Booking button for individual visitors */
+.book { display: inline-flex; align-items: center; gap: 8px; align-self: flex-start; font: inherit; font-weight: 600; font-size: .86rem;
+  text-decoration: none; background: var(--pool); color: var(--pool-ink); border: 1px solid var(--brand); border-radius: 999px; padding: 7px 16px; }
+.book::before { content: ""; width: 14px; height: 14px; flex: none; background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 2h1V1h2v1h4V1h2v1h1a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm-0 4v7h10V6H3zm2 2h3v3H5V8z'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 2h1V1h2v1h4V1h2v1h1a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm-0 4v7h10V6H3zm2 2h3v3H5V8z'/%3E%3C/svg%3E") center / contain no-repeat; }
+.book:hover { filter: brightness(1.1); }
+header .book { background: var(--brand); color: #231f20; border-color: transparent; display: none; flex: none; }
+@media (min-width: 640px) { header .book { display: inline-flex; } }
 @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
 </style>
 </head>
@@ -177,6 +186,7 @@ main { background: transparent; }
       <h1 id="title"></h1>
       <p class="sub" id="sub"></p>
     </div>
+    <a class="book" id="bookHead" href="https://szgmc.gov.ae/en/individual-booking" target="_blank" rel="noopener"></a>
     <select class="lang" id="langSel" aria-label="اللغة / Language">
       <option value="ar">العربية</option>
       <option value="en">English</option>
@@ -204,6 +214,13 @@ main { background: transparent; }
 <script>
 const API_URL = "https://n8n.qclabz.com/webhook/szgmc-agent";
 const FUSHA_NOTE = "\n\n(تعليمات للمساعد: أجب باللغة العربية الفصحى فقط، دون أي لهجة عامية، وبأسلوب رسمي مهذب.)";
+const BOOK_URL = "https://szgmc.gov.ae/en/individual-booking";
+const BOOK_TXT = { ar: "احجز زيارتك", en: "Book your visit", fr: "Réserver votre visite", zh: "预约参观", ru: "Забронировать визит", ur: "اپنی زیارت بُک کریں" };
+const BOOK_RE = /حجز|احجز|أحجز|تذكر|تذاكر|book|ticket|reserv|réserv|billet|预约|预订|门票|брон|билет|بکنگ|بُک|ٹکٹ/i;
+function bookLink() {
+  const a = document.createElement("a"); a.className = "book"; a.href = BOOK_URL; a.target = "_blank"; a.rel = "noopener";
+  a.textContent = BOOK_TXT[lang] || BOOK_TXT.en; return a;
+}
 const T = {
   ar: {
     dir: "rtl", title: "الدليل الثقافي الذكي لجامع الشيخ زايد",
@@ -299,6 +316,8 @@ function render() {
     b.addEventListener("click", () => ask(s)); chips.append(b);
   }
   m.append(chips);
+  m.append(bookLink());
+  $("bookHead").textContent = BOOK_TXT[lang] || BOOK_TXT.en;
 }
 function addMsg(role, text) {
   const t = T[lang];
@@ -344,6 +363,7 @@ async function ask(text) {
     b.classList.remove("thinking");
     b.textContent = data.answer || T[lang].err;
     addSources(m, data.sources);
+    if (BOOK_RE.test(text)) m.append(bookLink());
   } catch (e) {
     b.classList.remove("thinking"); b.classList.add("note"); b.textContent = T[lang].err;
   } finally {
