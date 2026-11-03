@@ -203,6 +203,7 @@ main { background: transparent; }
 
 <script>
 const API_URL = "https://n8n.qclabz.com/webhook/szgmc-agent";
+const FUSHA_NOTE = "\n\n(تعليمات للمساعد: أجب باللغة العربية الفصحى فقط، دون أي لهجة عامية، وبأسلوب رسمي مهذب.)";
 const T = {
   ar: {
     dir: "rtl", title: "الدليل الثقافي الذكي لجامع الشيخ زايد",
@@ -336,7 +337,7 @@ async function ask(text) {
   try {
     const res = await fetch(API_URL, {
       method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: text, lang, sessionId })
+      body: JSON.stringify({ message: lang === "ar" ? text + FUSHA_NOTE : text, lang, sessionId, style: lang === "ar" ? "fusha" : undefined })
     });
     if (!res.ok) throw new Error("HTTP " + res.status);
     const data = await res.json();
