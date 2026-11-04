@@ -190,10 +190,6 @@ header .book { background: var(--brand); color: #231f20; border-color: transpare
     <select class="lang" id="langSel" aria-label="اللغة / Language">
       <option value="ar">العربية</option>
       <option value="en">English</option>
-      <option value="fr">Français</option>
-      <option value="zh">中文</option>
-      <option value="ru">Русский</option>
-      <option value="ur">اردو</option>
     </select>
   </div>
 </header>
@@ -215,7 +211,7 @@ header .book { background: var(--brand); color: #231f20; border-color: transpare
 const API_URL = "https://n8n.qclabz.com/webhook/szgmc-agent";
 const FUSHA_NOTE = "\n\n(تعليمات للمساعد: أجب باللغة العربية الفصحى فقط، دون أي لهجة عامية، وبأسلوب رسمي مهذب.)";
 const BOOK_URL = "https://szgmc.gov.ae/en/individual-booking";
-const BOOK_TXT = { ar: "احجز زيارتك", en: "Book your visit", fr: "Réserver votre visite", zh: "预约参观", ru: "Забронировать визит", ur: "اپنی زیارت بُک کریں" };
+const BOOK_TXT = { ar: "احجز زيارتك", en: "Book your visit" };
 const BOOK_RE = /حجز|احجز|أحجز|تذكر|تذاكر|book|ticket|reserv|réserv|billet|预约|预订|门票|брон|билет|بکنگ|بُک|ٹکٹ/i;
 function bookLink() {
   const a = document.createElement("a"); a.className = "book"; a.href = BOOK_URL; a.target = "_blank"; a.rel = "noopener";
@@ -244,50 +240,6 @@ const T = {
     err: "Could not reach the guide. Please try sending your question again in a moment.",
     busy: "The guide is busy right now. Try again in a minute."
   },
-  fr: {
-    dir: "ltr", title: "Guide culturel intelligent de la Grande Mosquée Sheikh Zayed",
-    sub: "Réponses fondées uniquement sur le site du Centre de la Grande Mosquée Sheikh Zayed",
-    placeholder: "Posez votre question, p. ex. : Quelle tenue pour les femmes ?", send: "Envoyer",
-    me: "Vous", bot: "Guide culturel", thinking: "Recherche dans les informations du site...", src: "Sur le site :",
-    welcome: "Bienvenue dans le Guide culturel intelligent de la Grande Mosquée Sheikh Zayed. Je suis heureux de répondre à vos questions sur les horaires de visite, les règles de conduite et la tenue vestimentaire, les visites culturelles, les services et l'architecture islamique de la mosquée, sur la base des informations officielles du Centre de la Grande Mosquée Sheikh Zayed.",
-    chips: ["Quels sont les horaires le vendredi ?","Combien coûte l'entrée ?","Quelle est la tenue exigée ?","Quand ont lieu les visites gratuites ?","Où me garer ?","Quelle est la hauteur des minarets ?"],
-    fine: "Source unique : szgmc.gov.ae (informations de novembre 2026). Vérifiez sur le site avant votre visite.",
-    err: "Impossible de joindre le guide. Réessayez dans un instant.",
-    busy: "Le guide est très sollicité. Réessayez dans une minute."
-  },
-  zh: {
-    dir: "ltr", title: "谢赫扎耶德大清真寺智能文化导览",
-    sub: "仅根据谢赫扎耶德大清真寺中心官网信息回答",
-    placeholder: "请输入问题，例如：女性应该穿什么？", send: "发送",
-    me: "您", bot: "文化导览", thinking: "正在查询官网信息...", src: "来自官网：",
-    welcome: "欢迎使用谢赫扎耶德大清真寺智能文化导览。我很乐意根据谢赫扎耶德大清真寺中心的官方信息，解答您关于参观时间、参观礼仪与着装要求、文化导览、服务设施以及清真寺伊斯兰建筑的问题。",
-    chips: ["周五的参观时间是？","门票多少钱？","着装有什么要求？","免费导览什么时候？","在哪里停车？","宣礼塔有多高？"],
-    fine: "唯一信息来源：szgmc.gov.ae（信息截至2026年11月）。参观前请在官网确认。",
-    err: "暂时无法连接导览，请稍后重新发送问题。",
-    busy: "当前访问繁忙，请一分钟后再试。"
-  },
-  ru: {
-    dir: "ltr", title: "Умный культурный гид по Большой мечети шейха Зайда",
-    sub: "Ответы только на основе сайта Центра Большой мечети шейха Зайда",
-    placeholder: "Задайте вопрос, например: как должны одеваться женщины?", send: "Отправить",
-    me: "Вы", bot: "Культурный гид", thinking: "Ищу информацию на сайте...", src: "С сайта:",
-    welcome: "Добро пожаловать в Умный культурный гид по Большой мечети шейха Зайда. Я с удовольствием отвечу на ваши вопросы о часах посещения, правилах поведения и дресс-коде, культурных экскурсиях, услугах и исламской архитектуре мечети на основе официальной информации Центра Большой мечети шейха Зайда.",
-    chips: ["Часы посещения в пятницу?","Сколько стоит вход?","Какой дресс-код?","Когда бесплатные экскурсии?","Где припарковаться?","Какой высоты минареты?"],
-    fine: "Единственный источник: szgmc.gov.ae (данные на ноябрь 2026 г.). Перед визитом уточните информацию на сайте.",
-    err: "Не удалось связаться с гидом. Попробуйте отправить вопрос ещё раз чуть позже.",
-    busy: "Сейчас высокая нагрузка. Попробуйте через минуту."
-  },
-  ur: {
-    dir: "rtl", title: "شیخ زاید گرینڈ مسجد کا اسمارٹ ثقافتی رہنما",
-    sub: "صرف شیخ زاید گرینڈ مسجد سینٹر کی ویب سائٹ کی معلومات سے جواب",
-    placeholder: "اپنا سوال لکھیں، مثلاً: خواتین کیا پہنیں؟", send: "بھیجیں",
-    me: "آپ", bot: "ثقافتی رہنما", thinking: "ویب سائٹ کی معلومات تلاش کی جا رہی ہیں...", src: "ویب سائٹ سے:",
-    welcome: "شیخ زاید گرینڈ مسجد کے اسمارٹ ثقافتی رہنما میں خوش آمدید۔ مجھے شیخ زاید گرینڈ مسجد سینٹر کی سرکاری معلومات کی بنیاد پر زیارت کے اوقات، آدابِ زیارت اور لباس، ثقافتی دوروں، خدمات اور مسجد کے اسلامی فنِ تعمیر سے متعلق آپ کے سوالات کے جواب دے کر خوشی ہوگی۔",
-    chips: ["جمعہ کو زیارت کے اوقات کیا ہیں؟","داخلہ فیس کتنی ہے؟","لباس کے کیا اصول ہیں؟","مفت دورے کب ہوتے ہیں؟","گاڑی کہاں کھڑی کروں؟","مینار کتنے اونچے ہیں؟"],
-    fine: "واحد ذریعہ: szgmc.gov.ae (معلومات نومبر 2026 تک)۔ زیارت سے پہلے ویب سائٹ پر تصدیق کر لیں۔",
-    err: "رہنما سے رابطہ نہیں ہو سکا۔ تھوڑی دیر بعد دوبارہ سوال بھیجیں۔",
-    busy: "اس وقت رش ہے، ایک منٹ بعد کوشش کریں۔"
-  }
 };
 
 const $ = id => document.getElementById(id);
